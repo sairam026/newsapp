@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>News App</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto:wght@500&display=swap");
+
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #c3c3c3;
+    }
+
+    p {
+      font-family: "Roboto", sans-serif;
+      opacity: .8;
+      line-height: 1.4rem;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .flex {
+      display: flex;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin-inline: auto;
+      overflow: hidden;
+    }
+
+    nav {
+      background-color: #484e52;
+      color: white;
+      position: fixed;
+      top: 0;
+      z-index: 99;
+      left: 0;
+      right: 0;
+    }
+
+    .main-nav {
+      justify-content: space-between;
+      padding-block: 8px;
+    }
+
+    .nav-links ul {
+      gap: 16px;
+    }
+
+    .hover-link {
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      color: #00ff99;
+    }
+
+    .search-bar {
+      height: 32px;
+      gap: 8px;
+    }
+
+    .news-input {
+      width: 200px;
+      height: 100%;
+      padding-inline: 12px;
+      border-radius: 4px;
+      border: 2px solid #bbd0e2;
+      font-family: "Roboto", sans-serif;
+    }
+
+    .search-button {
+      background-color: #208c5b;
+      color: white;
+      padding: 8px 24px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: "Roboto", sans-serif;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-button:hover {
+      background-color: #1a6f45;
+    }
+
+    main {
+      padding-block: 20px;
+      margin-top: 80px;
+    }
+
+    .cards-container {
+      justify-content: space-between;
+      flex-wrap: wrap;
+      row-gap: 20px;
+      align-items: start;
+    }
+
+    .card {
+      width: 360px;
+      min-height: 400px;
+      box-shadow: 0 0 4px #d4ecff;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: #fff;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 1px 1px 8px #d4ecff;
+      background-color: #f9fdff;
+      transform: translateY(-2px);
+    }
+
+    .card-header img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 12px;
+    }
+
+    .news-source {
+      margin-block: 12px;
+    }
+
+    .hover-link:hover {
+      color: #b9b9b9;
+      text-decoration: underline;
+    }
+
+    #status-msg {
+      text-align: center;
+      margin: 20px 0;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    #auth-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #e0e0e0;
+    }
+
+    #auth-container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #999;
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+    }
+
+    #auth-container input {
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 1rem;
+    }
+
+    #auth-button {
+      padding: 10px;
+      background: #208c5b;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #auth-button:hover {
+      background-color: #1a6f45;
+    }
+
+    #switch-auth {
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    #toggle-auth {
+      color: blue;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* Media Queries for responsiveness */
+
+    @media (max-width: 768px) {
+      .main-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-inline: 20px;
+      }
+
+      .nav-links ul {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .search-bar {
+        margin-top: 12px;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .news-input {
+        width: 100%;
+        font-size: 1rem;
+      }
+
+      .search-button {
+        width: 100%;
+      }
+
+      .card {
+        width: 100%;
+      }
+
+      .card-header img {
+        height: 150px;
+      }
+
+      #auth-container {
+        width: 100%;
+        max-width: 400px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav {
+        position: relative;
+      }
+
+      .nav-links ul {
+        padding-left: 0;
+      }
+
+      .card {
+        width: 100%;
+        min-width: auto;
+      }
+
+      .search-bar {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    /* Hamburger Menu Styles */
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+  }
+  
+  /* Media Query for Navbar Collapse */
+  @media (max-width: 768px) {
+    .main-nav {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .menu-toggle {
+      display: block;
+      margin-bottom: 10px;
+    }
+  
+    .nav-links {
+      display: none;
+      width: 100%;
+    }
+  
+    .nav-links.show {
+      display: block;
+    }
+  
+    .nav-links ul {
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      padding-left: 0;
+    }
+  
+    .search-bar {
+      flex-direction: column;
+      width: 100%;
+      margin-top: 10px;
+    }
+  
+    .search-button, .news-input {
+      width: 100%;
+    }
+  }
+  
+  </style>
+</head>
+<body>
+  <div id="auth-section">
+    <div id="auth-container">
+      <h2 id="auth-title">Sign Up</h2>
+      <input type="email" id="auth-email" placeholder="Email" required>
+      <input type="password" id="auth-password" placeholder="Password" required>
+      <button id="auth-button">Sign Up</button>
+      <p id="switch-auth">Already have an account? <span id="toggle-auth">Login</span></p>
+    </div>
+  </div>
+
+   <!-- Inside your <body> just replace the existing <nav> section with this one -->
+
+<nav>
+    <div class="main-nav container flex">
+      <div class="nav-header flex">
+        <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+      </div>
+      <div class="nav-links" id="nav-links">
+        <ul class="flex">
+          <li class="hover-link nav-item" onclick="onNavItemClick('finance')" id="finance">Finance</li>
+          <li class="hover-link nav-item" onclick="onNavItemClick('sports')" id="sports">Sports</li>
+          <li class="hover-link nav-item" onclick="onNavItemClick('crypto')" id="crypto">Crypto</li>
+          <li class="hover-link nav-item" onclick="onNavItemClick('international')" id="international">International</li>
+          <li class="hover-link nav-item" onclick="onNavItemClick('technical')" id="technical">Technical</li>
+          <li class="hover-link nav-item" onclick="onNavItemClick('AI')" id="AI">AI</li>
+          <li class="hover-link nav-item" onclick="onNavItemClick('education')" id="education">Education</li>
+        </ul>
+      </div>
+      <div class="search-bar flex">
+        <input id="search-text" type="text" class="news-input" placeholder="e.g. Science" />
+        <button id="search-button" class="search-button">Search</button>
+        <button id="logout-btn" class="search-button">Logout</button>
+      </div>
+    </div>
+  </nav>
+  
+
+  <main>
+    <div id="status-msg"></div>
+    <div class="cards-container container flex" id="cards-container"></div>
+  </main>
+
+  <template id="template-news-card">
+    <div class="card">
+      <div class="card-header">
+        <img src="" alt="news-image" id="news-img">
+      </div>
+      <div class="card-content">
+        <h3 id="news-title">Title</h3>
+        <h6 class="news-source" id="news-source">Source</h6>
+        <p class="news-desc" id="news-desc">Description</p>
+      </div>
+    </div>
+  </template>
+
+  
+  
+ <script src="script.js"></script>
+</body>
+</html>
