@@ -1,378 +1,547 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>News App</title>
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto:wght@500&display=swap");
-
-    * {
-      padding: 0;
-      margin: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #c3c3c3;
-    }
-
-    p {
-      font-family: "Roboto", sans-serif;
-      opacity: .8;
-      line-height: 1.4rem;
-    }
-
-    a {
-      text-decoration: none;
-    }
-
-    ul {
-      list-style: none;
-    }
-
-    .flex {
-      display: flex;
-      align-items: center;
-    }
-
-    .container {
-      max-width: 1180px;
-      margin-inline: auto;
-      overflow: hidden;
-    }
-
-    nav {
-      background-color: #484e52;
-      color: white;
-      position: fixed;
-      top: 0;
-      z-index: 99;
-      left: 0;
-      right: 0;
-    }
-
-    .main-nav {
-      justify-content: space-between;
-      padding-block: 8px;
-    }
-
-    .nav-links ul {
-      gap: 16px;
-    }
-
-    .hover-link {
-      cursor: pointer;
-    }
-
-    .nav-item.active {
-      color: #00ff99;
-    }
-
-    .search-bar {
-      height: 32px;
-      gap: 8px;
-    }
-
-    .news-input {
-      width: 200px;
-      height: 100%;
-      padding-inline: 12px;
-      border-radius: 4px;
-      border: 2px solid #bbd0e2;
-      font-family: "Roboto", sans-serif;
-    }
-
-    .search-button {
-      background-color: #208c5b;
-      color: white;
-      padding: 8px 24px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-family: "Roboto", sans-serif;
-      transition: background-color 0.3s ease;
-    }
-
-    .search-button:hover {
-      background-color: #1a6f45;
-    }
-
-    main {
-      padding-block: 20px;
-      margin-top: 80px;
-    }
-
-    .cards-container {
-      justify-content: space-between;
-      flex-wrap: wrap;
-      row-gap: 20px;
-      align-items: start;
-    }
-
-    .card {
-      width: 360px;
-      min-height: 400px;
-      box-shadow: 0 0 4px #d4ecff;
-      border-radius: 4px;
-      cursor: pointer;
-      background-color: #fff;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      box-shadow: 1px 1px 8px #d4ecff;
-      background-color: #f9fdff;
-      transform: translateY(-2px);
-    }
-
-    .card-header img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .card-content {
-      padding: 12px;
-    }
-
-    .news-source {
-      margin-block: 12px;
-    }
-
-    .hover-link:hover {
-      color: #b9b9b9;
-      text-decoration: underline;
-    }
-
-    #status-msg {
-      text-align: center;
-      margin: 20px 0;
-      font-size: 1.1rem;
-      color: #333;
-    }
-
-    #auth-section {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #e0e0e0;
-    }
-
-    #auth-container {
-      background: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #999;
-      display: flex;
-      flex-direction: column;
-      width: 300px;
-    }
-
-    #auth-container input {
-      padding: 10px;
-      margin: 10px 0;
-      font-size: 1rem;
-    }
-
-    #auth-button {
-      padding: 10px;
-      background: #208c5b;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    #auth-button:hover {
-      background-color: #1a6f45;
-    }
-
-    #switch-auth {
-      margin-top: 10px;
-      font-size: 0.9rem;
-    }
-
-    #toggle-auth {
-      color: blue;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    /* Media Queries for responsiveness */
-
-    @media (max-width: 768px) {
-      .main-nav {
-        flex-direction: column;
-        align-items: flex-start;
-        padding-inline: 20px;
-      }
-
-      .nav-links ul {
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .search-bar {
-        margin-top: 12px;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .news-input {
-        width: 100%;
-        font-size: 1rem;
-      }
-
-      .search-button {
-        width: 100%;
-      }
-
-      .card {
-        width: 100%;
-      }
-
-      .card-header img {
-        height: 150px;
-      }
-
-      #auth-container {
-        width: 100%;
-        max-width: 400px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      nav {
-        position: relative;
-      }
-
-      .nav-links ul {
-        padding-left: 0;
-      }
-
-      .card {
-        width: 100%;
-        min-width: auto;
-      }
-
-      .search-bar {
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
-
-    /* Hamburger Menu Styles */
-.menu-toggle {
-    display: none;
-    font-size: 24px;
+  /* Reset & Base Styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+  }
+  
+  /* Navigation */
+  nav {
+    background-color: #0d1117;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .nav-links button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
     cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+  }
+  .nav-links button:hover,
+  .nav-links .active {
+    background-color: #238636;
+  }
+  nav input[type="text"] {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: none;
+    width: 200px;
+  }
+  nav #logout-btn {
+    background-color: #da3633;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  nav #logout-btn:hover {
+    background-color: #b82b2a;
+  }
+  
+  /* Auth Section */
+  .auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .auth-container h2 {
+    margin-bottom: 1rem;
+  }
+  .auth-container input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  .auth-container button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #0070f3;
+    border: none;
     color: white;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .auth-container button:hover {
+    background-color: #0059c1;
+  }
+  .auth-container p {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .auth-container a {
+    color: #0070f3;
+    text-decoration: none;
   }
   
-  /* Media Query for Navbar Collapse */
-  @media (max-width: 768px) {
-    .main-nav {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .menu-toggle {
-      display: block;
-      margin-bottom: 10px;
-    }
-  
-    .nav-links {
-      display: none;
-      width: 100%;
-    }
-  
-    .nav-links.show {
-      display: block;
-    }
-  
-    .nav-links ul {
-      flex-direction: column;
-      gap: 10px;
-      width: 100%;
-      padding-left: 0;
-    }
-  
-    .search-bar {
-      flex-direction: column;
-      width: 100%;
-      margin-top: 10px;
-    }
-  
-    .search-button, .news-input {
-      width: 100%;
-    }
+  /* Main Section */
+  main {
+    padding: 2rem;
+  }
+  #status-msg {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
   }
   
-  </style>
+  /* News Cards */
+  #cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .news-card {
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+  }
+  .news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+  .news-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  .news-card h3 {
+    padding: 1rem;
+    font-size: 1.1rem;
+    color: #222;
+  }
+  .news-card p {
+    padding: 0 1rem 1rem;
+    color: #666;
+  }
+  
+  /* Create Post */
+  #create-post-section {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  }
+  #create-post-section input,
+  #create-post-section textarea {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  #create-post-section button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  #create-post-section button:hover {
+    background-color: #218838;
+  }
+  
+  /* Profile Section */
+  #profile-section {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  }
+  #profile-section h3 {
+    margin-bottom: 1rem;
+  }
+  
+  /* Hidden Section */
+  .hidden {
+    display: none;
+  }
+  
+  /* Responsive Design */
+  
+  button {
+    margin-left: 0.5rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+  }
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  
+  
+</style>
+  
 </head>
 <body>
-  <div id="auth-section">
-    <div id="auth-container">
-      <h2 id="auth-title">Sign Up</h2>
-      <input type="email" id="auth-email" placeholder="Email" required>
-      <input type="password" id="auth-password" placeholder="Password" required>
-      <button id="auth-button">Sign Up</button>
-      <p id="switch-auth">Already have an account? <span id="toggle-auth">Login</span></p>
+
+  <!-- Auth Section -->
+  <section id="auth-section" class="auth-container">
+    <h2 id="auth-title">Sign Up</h2>
+    <input type="email" id="auth-email" placeholder="Email" />
+    <input type="password" id="auth-password" placeholder="Password" />
+    <button id="auth-button">Sign Up</button>
+    <p><a href="#" id="toggle-auth">Already have an account? Login</a></p>
+  </section>
+
+  <!-- Navigation -->
+  <nav style="display: none;">
+    <div class="nav-links" id="nav-links">
+      <button onclick="onNavItemClick('India')">India</button>
+      <button onclick="onNavItemClick('Technology')">Technology</button>
+      <button onclick="onNavItemClick('Sports')">Sports</button>
+      <button onclick="toggleSection('create-post-section')">Create Post</button>
+      <button onclick="showMyPosts()">My Posts</button>
+
+      <button onclick="toggleSection('profile-section')">Profile</button>
     </div>
-  </div>
-
-   <!-- Inside your <body> just replace the existing <nav> section with this one -->
-
-<nav>
-    <div class="main-nav container flex">
-      <div class="nav-header flex">
-        <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-      </div>
-      <div class="nav-links" id="nav-links">
-        <ul class="flex">
-          <li class="hover-link nav-item" onclick="onNavItemClick('finance')" id="finance">Finance</li>
-          <li class="hover-link nav-item" onclick="onNavItemClick('sports')" id="sports">Sports</li>
-          <li class="hover-link nav-item" onclick="onNavItemClick('crypto')" id="crypto">Crypto</li>
-          <li class="hover-link nav-item" onclick="onNavItemClick('international')" id="international">International</li>
-          <li class="hover-link nav-item" onclick="onNavItemClick('technical')" id="technical">Technical</li>
-          <li class="hover-link nav-item" onclick="onNavItemClick('AI')" id="AI">AI</li>
-          <li class="hover-link nav-item" onclick="onNavItemClick('education')" id="education">Education</li>
-        </ul>
-      </div>
-      <div class="search-bar flex">
-        <input id="search-text" type="text" class="news-input" placeholder="e.g. Science" />
-        <button id="search-button" class="search-button">Search</button>
-        <button id="logout-btn" class="search-button">Logout</button>
-      </div>
+    <div>
+      <input type="text" id="search-text" placeholder="Search news..." />
+      <button id="logout-btn">Logout</button>
     </div>
   </nav>
-  
 
-  <main>
-    <div id="status-msg"></div>
-    <div class="cards-container container flex" id="cards-container"></div>
+  <!-- Main Content -->
+  <main style="display: none;">
+    <p id="status-msg"></p>
+    <div id="cards-container"></div>
   </main>
 
+  <!-- Create Post -->
+  <section id="create-post-section" class="hidden">
+    <h3>Create Your Post</h3>
+    <input type="text" id="post-title" placeholder="Post Title" />
+    <input type="text" id="post-image" placeholder="Image URL (optional)" />
+    <textarea id="post-desc" rows="5" placeholder="Post Description"></textarea>
+    <button onclick="createUserPost()">Publish Post</button>
+  </section>
+
+  <!-- Profile -->
+  <section id="profile-section" class="hidden">
+    <h3>User Profile</h3>
+    <p><strong>Email:</strong> <span id="profile-email"></span></p>
+  </section>
+
+  <!-- Template for News Cards -->
   <template id="template-news-card">
-    <div class="card">
-      <div class="card-header">
-        <img src="" alt="news-image" id="news-img">
-      </div>
-      <div class="card-content">
-        <h3 id="news-title">Title</h3>
-        <h6 class="news-source" id="news-source">Source</h6>
-        <p class="news-desc" id="news-desc">Description</p>
-      </div>
+    <div class="news-card">
+      <img id="news-img" style="width:100%; height:auto;" />
+      <h3 id="news-title"></h3>
+      <p id="news-source"></p>
+      <p id="news-desc"></p>
     </div>
   </template>
 
-  
-  
- <script src="script.js"></script>
+  <!-- JavaScript -->
+  <script>
+    const API_KEY = "77d0c6c9492a479ab43a891b30e1d77f";
+    const proxy = "https://api.allorigins.win/raw?url=";
+    const baseURL = `https://newsapi.org/v2/everything?q=`;
+    let debounceTimeout;
+
+    window.addEventListener("load", () => {
+      if (localStorage.getItem("loggedIn") === "true") {
+        showNewsApp();
+      }
+    });
+
+    async function fetchNews(query) {
+      const statusMsg = document.getElementById("status-msg");
+      statusMsg.textContent = "Loading news...";
+
+      try {
+        const apiURL = `${baseURL}${encodeURIComponent(query)}&apiKey=${API_KEY}`;
+        const res = await fetch(`${proxy}${encodeURIComponent(apiURL)}`);
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+        const data = await res.json();
+
+        if (data.status !== "ok" || !data.articles || data.articles.length === 0) {
+          statusMsg.innerHTML = `No news found or error: ${data.message || "Unknown error"}. <button onclick="fetchNews('${query}')">Retry</button>`;
+          return;
+        }
+
+        statusMsg.textContent = "";
+        bindData(data.articles.concat(getUserPosts()));
+      } catch (error) {
+        statusMsg.innerHTML = `Failed to load news. <button onclick="fetchNews('${query}')">Retry</button>`;
+        console.error("Error fetching news:", error);
+      }
+    }
+
+    function bindData(articles) {
+      const cardsContainer = document.getElementById("cards-container");
+      const newsCardTemplate = document.getElementById("template-news-card");
+      cardsContainer.innerHTML = "";
+
+      articles.forEach((article) => {
+        if (!article.urlToImage && !article.isUserPost) return;
+        const cardClone = newsCardTemplate.content.cloneNode(true);
+        fillDataInCard(cardClone, article);
+        cardsContainer.appendChild(cardClone);
+      });
+    }
+
+    function fillDataInCard(cardClone, article) {
+      const newsImg = cardClone.querySelector("#news-img");
+      const newsTitle = cardClone.querySelector("#news-title");
+      const newsSource = cardClone.querySelector("#news-source");
+      const newsDesc = cardClone.querySelector("#news-desc");
+
+      newsImg.src = article.urlToImage || "https://via.placeholder.com/300x150?text=No+Image";
+      newsTitle.textContent = article.title || "No Title";
+      newsDesc.textContent = article.description || "No Description";
+
+      const date = article.isUserPost
+        ? new Date(article.createdAt).toLocaleString()
+        : new Date(article.publishedAt).toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+
+      newsSource.textContent = `${article.source?.name || "User"} · ${date}`;
+
+      cardClone.firstElementChild.addEventListener("click", () => {
+        if (article.isUserPost) {
+          alert("This is a user-created post.");
+        } else {
+          window.open(article.url, "_blank");
+        }
+      });
+    }
+
+    let curSelectedNav = null;
+    function onNavItemClick(id) {
+      fetchNews(id);
+      const navItem = document.getElementById(id);
+      curSelectedNav?.classList.remove("active");
+      curSelectedNav = navItem;
+      curSelectedNav.classList.add("active");
+    }
+
+    const searchText = document.getElementById("search-text");
+    searchText.addEventListener("input", () => {
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(() => {
+        const query = searchText.value.trim();
+        if (!query) return;
+        fetchNews(query);
+        curSelectedNav?.classList.remove("active");
+        curSelectedNav = null;
+      }, 500);
+    });
+
+    const authSection = document.getElementById("auth-section");
+    const nav = document.querySelector("nav");
+    const main = document.querySelector("main");
+
+    const authTitle = document.getElementById("auth-title");
+    const authEmail = document.getElementById("auth-email");
+    const authPassword = document.getElementById("auth-password");
+    const authButton = document.getElementById("auth-button");
+    const switchAuth = document.getElementById("toggle-auth");
+
+    let isLoginMode = false;
+
+    switchAuth.addEventListener("click", () => {
+      isLoginMode = !isLoginMode;
+      authTitle.textContent = isLoginMode ? "Login" : "Sign Up";
+      authButton.textContent = isLoginMode ? "Login" : "Sign Up";
+      switchAuth.textContent = isLoginMode ? "Don't have an account? Sign Up" : "Already have an account? Login";
+    });
+
+    authButton.addEventListener("click", () => {
+      const email = authEmail.value.trim();
+      const password = authPassword.value.trim();
+      if (!email || !password) {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      if (isLoginMode) {
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+        if (storedUser && storedUser.email === email && storedUser.password === password) {
+          localStorage.setItem("loggedIn", "true");
+          localStorage.setItem("loggedUserEmail", email);
+          showNewsApp();
+        } else {
+          alert("Invalid credentials.");
+        }
+      } else {
+        localStorage.setItem("user", JSON.stringify({ email, password }));
+        alert("Signup successful! Please login.");
+        isLoginMode = true;
+        authTitle.textContent = "Login";
+        authButton.textContent = "Login";
+        switchAuth.textContent = "Don't have an account? Sign Up";
+      }
+    });
+
+    function showNewsApp() {
+      authSection.style.display = "none";
+      nav.style.display = "flex";
+      main.style.display = "block";
+      toggleSection(); // Hide optional sections
+      document.getElementById("profile-email").textContent = localStorage.getItem("loggedUserEmail");
+      fetchNews("India");
+    }
+
+    const logoutBtn = document.getElementById("logout-btn");
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("loggedUserEmail");
+      authSection.style.display = "flex";
+      nav.style.display = "none";
+      main.style.display = "none";
+      toggleSection(); // Hide extra sections
+    });
+
+    function createUserPost() {
+      const title = document.getElementById("post-title").value.trim();
+      const desc = document.getElementById("post-desc").value.trim();
+      const img = document.getElementById("post-image").value.trim();
+
+      if (!title || !desc) {
+        alert("Title and description required.");
+        return;
+      }
+
+      const userPost = {
+        title,
+        description: desc,
+        urlToImage: img,
+        createdAt: new Date(),
+        isUserPost: true,
+        email: localStorage.getItem("loggedUserEmail")  // ✅ Add this line
+      };
+      
+
+      const posts = JSON.parse(localStorage.getItem("userPosts") || "[]");
+      posts.unshift(userPost);
+      localStorage.setItem("userPosts", JSON.stringify(posts));
+
+      alert("Post created!");
+      document.getElementById("post-title").value = "";
+      document.getElementById("post-desc").value = "";
+      document.getElementById("post-image").value = "";
+
+      fetchNews("India");
+    }
+
+    function getUserPosts() {
+      return JSON.parse(localStorage.getItem("userPosts") || "[]");
+    }
+
+    function toggleSection(id) {
+      document.getElementById("create-post-section").classList.add("hidden");
+      document.getElementById("profile-section").classList.add("hidden");
+      if (id) {
+        document.getElementById(id).classList.remove("hidden");
+        document.getElementById("cards-container").innerHTML = "";
+      }
+    }
+
+    function showMyPosts() {
+      const email = localStorage.getItem("loggedUserEmail");
+      const posts = JSON.parse(localStorage.getItem("userPosts") || "[]");
+      const userPosts = posts.filter(post => post.email === email);
+    
+      const cardsContainer = document.getElementById("cards-container");
+      toggleSection(); // hide other sections
+      cardsContainer.innerHTML = "";
+    
+      if (userPosts.length === 0) {
+        cardsContainer.innerHTML = `<p style="text-align:center;">You haven't posted anything yet.</p>`;
+        return;
+      }
+    
+      bindData(userPosts);
+    }
+
+
+    localStorage.setItem("userPosts", JSON.stringify(posts));
+      alert("Post published successfully!");
+
+      // Clear inputs
+      document.getElementById("post-title").value = "";
+      document.getElementById("post-desc").value = "";
+      document.getElementById("post-image").value = "";
+
+      fetchNews("India"); // Refresh news with new post included
+    
+
+    function getUserPosts() {
+      const posts = JSON.parse(localStorage.getItem("userPosts") || "[]");
+      return posts;
+    }
+
+    function showMyPosts() {
+      const userEmail = localStorage.getItem("loggedUserEmail");
+      const allPosts = JSON.parse(localStorage.getItem("userPosts") || "[]");
+      const userPosts = allPosts.filter(post => post.email === userEmail);
+
+      const statusMsg = document.getElementById("status-msg");
+      statusMsg.textContent = userPosts.length ? "" : "You have no posts yet.";
+
+      bindData(userPosts);
+      toggleSection(); // Hide other sections
+    }
+
+    function toggleSection(sectionId = null) {
+      const sections = ["create-post-section", "profile-section"];
+      sections.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add("hidden");
+      });
+
+      if (sectionId) {
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) targetSection.classList.remove("hidden");
+      }
+    }
+    
+    
+  </script>
 </body>
 </html>
